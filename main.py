@@ -9,20 +9,17 @@ tree = app_commands.CommandTree(client)
 
 guild_id = os.environ['GUILD_ID']
 
-@tree.command(name = "commandname", description = "My first application Command", guild=discord.Object(id = guild_id)) 
-async def first_command(interaction):
-    await interaction.response.send_message("Hello!")
+@tree.command(name = "add", description = "Add a recipe that one of your characters knows. Use wowhead.com spell id.", guild=discord.Object(id = guild_id)) 
+async def first_command(interaction, recipe: int ):
 
-@tree.command(name = "secondcommand", description = "My second application Command", guild=discord.Object(id = guild_id)) 
-async def second_command(interaction):
-    await interaction.response.send_message("Hello!", ephemeral = True )
-
-
+  reply_msg = "We've added {} to your list of recipes!"
+  await interaction.response.send_message(reply_msg.format(recipe), ephemeral = True )
+  print("Added", recipe) 
 
 @client.event
 async def on_ready():
-    await tree.sync(guild=discord.Object(id=guild_id))
-    print("Ready!")
+  await tree.sync(guild=discord.Object(id=guild_id))
+  print("Ready!")
 
 client.run(os.environ['SERVER_TOKEN'])
 
